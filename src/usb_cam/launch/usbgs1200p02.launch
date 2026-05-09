@@ -1,0 +1,44 @@
+<launch>
+  <!-- 锐尔威视USBGS1200P01 工业相机 - 匹配v4l2实际控件 & 标准XML语法 -->
+  <!-- 物理节点：/dev/video0 | 分辨率：1920*1080 | 帧率：30FPS | 格式：mjpeg -->
+  <node name="usbgs1200p02_cam" pkg="usb_cam" type="usb_cam_node" output="screen">
+    <!-- 基础必配参数 - 与硬件/ROS规范匹配，请勿修改 -->
+    <param name="video_device" value="/dev/video0" />
+    <param name="camera_name" value="usbgs1200p02_32e4_2234" />
+    <param name="camera_info_url" value="" />
+
+    <!-- 基础图像参数 - 对应说明书，可按需求修改（分辨率/帧率/格式） -->
+    <!-- <param name="image_width" value="1920" />
+    <param name="image_height" value="1080" /> -->
+    <param name="image_width" value="1280" />
+    <param name="image_height" value="720" />
+    <param name="framerate" value="10" />
+    <param name="pixel_format" value="mjpeg" />
+
+    <!-- 菜单型参数 - 这些名字需要放进 intrinsic_controls 命名空间，usb_cam 才会读取 -->
+    <param name="power_line_frequency" value="1" />
+    <param name="intrinsic_controls/exposure_auto" value="3" />
+    <param name="intrinsic_controls/white_balance_temperature_auto" value="1" />
+    <param name="intrinsic_controls/ignore" value="[brightness, contrast, saturation, gain, sharpness, backlight_compensation, white_balance_temperature, exposure_absolute, pan_absolute, tilt_absolute, focus_absolute, zoom_absolute]" />
+
+    <!-- 图像基础调节参数 - 匹配v4l2实际范围&默认值 -->
+    <param name="brightness" value="0" />
+    <param name="contrast" value="0" />
+    <param name="saturation" value="66" />
+    <param name="hue" value="90" />
+    <param name="gamma" value="100" />
+    <param name="sharpness" value="2000" />
+    <param name="backlight_compensation" value="0" />
+
+    <!-- 曝光/增益/白平衡 - 手动模式需按注释切对应开关后生效 -->
+    <param name="gain" value="0" />
+    <!-- <param name="exposure_time_absolute" value="50" />
+    <param name="white_balance_temperature" value="4600" /> -->
+  </node>
+
+  <!-- 图像可视化节点 - 订阅相机图像话题，自适应窗口大小 -->
+  <!-- <node name="camera_view" pkg="image_view" type="image_view" output="screen">
+    <remap from="image" to="/usbgs1200p02_cam/image_raw" />
+    <param name="autosize" value="true" />
+  </node> -->
+</launch>
