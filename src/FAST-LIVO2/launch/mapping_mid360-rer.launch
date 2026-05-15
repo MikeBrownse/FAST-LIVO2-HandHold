@@ -1,9 +1,9 @@
 <launch>
 <!-- Launch file for Livox MID-360 LiDAR -->
 
-	<arg name="rviz" default="true" />
+	<arg name="rviz" default="false" />
 
-	<rosparam command="load" file="$(find fast_livo)/config/mid360.yaml" />
+	<rosparam command="load" file="$(find fast_livo)/config/mid360_rer.yaml" />
 	<node pkg="fast_livo" type="fastlivo_mapping" name="laserMapping" output="screen">
 		<rosparam file="$(find fast_livo)/config/camera_pinhole_RERV-usbgs1200p02.yaml" />
 	</node>

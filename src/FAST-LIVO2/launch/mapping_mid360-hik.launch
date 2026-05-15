@@ -3,7 +3,7 @@
 
 	<arg name="rviz" default="true" />
 
-	<rosparam command="load" file="$(find fast_livo)/config/mid360.yaml" />
+	<rosparam command="load" file="$(find fast_livo)/config/mid360_hik.yaml" />
 	<node pkg="fast_livo" type="fastlivo_mapping" name="laserMapping" output="screen">
 		<rosparam file="$(find fast_livo)/config/camera_pinhole_MV-CS020.yaml" />
 	</node>
