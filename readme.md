@@ -21,6 +21,10 @@
 
 ## 编译
 如果需要编译，在src所在的目录执行 `catkin_make` 即可，必要时删除`build` 和 `devel`目录。
+可选择性编译相机驱动包：
+编译 *海康工业相机* 驱动，跳过 通用 usb_cam 包：`catkin_make -DCAMERA_TYPE=HIK`
+编译 *usb_cam*，跳过 海康相机驱动：`catkin_make -DCAMERA_TYPE=RER`
+编译全部：catkin_make 或 catkin_make -DCAMERA_TYPE=ALL
 
 ## 硬件与配件
 ### 外壳结构
