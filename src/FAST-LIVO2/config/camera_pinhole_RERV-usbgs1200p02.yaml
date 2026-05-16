@@ -1,0 +1,13 @@
+# Camera intrinsic parameters for RERVISION-USBGS1200P02 camera
+cam_model: Pinhole
+cam_width: 1920
+cam_height: 1080
+scale: 1.0
+cam_fx: 1094.182906
+cam_fy: 1095.267424
+cam_cx: 686.393079
+cam_cy: 328.769433
+cam_d0: 0.080547
+cam_d1: -0.085741
+cam_d2: -0.000796
+cam_d3: -0.000788

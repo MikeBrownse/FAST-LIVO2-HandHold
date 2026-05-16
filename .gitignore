@@ -5,6 +5,9 @@ build/
 devel/
 logs/
 
+# 跳过CATKIN_IGNORE
+CATKIN_IGNORE
+
 # vscode
 .vscode/
 
