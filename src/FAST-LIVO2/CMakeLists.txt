@@ -98,7 +98,6 @@ find_package(PCL REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(Sophus REQUIRED)
 find_package(Boost REQUIRED COMPONENTS thread)
-# find_library(LIBUSB_1_LIBRARY usb-1.0 REQUIRED)
 
 set(Sophus_LIBRARIES libSophus.so)
 
@@ -140,7 +139,6 @@ target_link_libraries(fastlivo_mapping
   ${OpenCV_LIBRARIES}
   ${Sophus_LIBRARIES}
   ${Boost_LIBRARIES}
-  # ${LIBUSB_1_LIBRARY}
 )
 
 # Link mimalloc if found
