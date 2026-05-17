@@ -252,6 +252,13 @@ python distance_filter_tool.py ../calib_data/20260401_2156.bag ../output/scripts
 roslaunch fast-calib calib.launch
 ```
 
+### LiDAR-外置IMU外参标定
+由于LiDAR在无人机上的安装位置在机体前方，因此在进行yaw旋转时，可能会引入不必要的误差，因此IMU源建议使用飞控的IMU而非MID-360的IMU。
+
+本项目使用[`HKU-MARS`](https://github.com/hku-mars)团队的[`LiDAR_IMU_Init`](https://github.com/hku-mars/LiDAR_IMU_Init)完成LiDAR-IMU外参标定。
+
+但问题在于，该仓库只提供了`livox_ros_driver`（livox第一代驱动的兼容），本项目针对2代驱动和ceres2.2.0做了兼容性修改，解决了原仓库构建时的问题，可适用于MID-360。具体构建步骤仍可参考原仓库[`README.md`](src/LiDAR_IMU_Init/README.md)。
+
 ## fastlivo2配置
 得到相机-LiDAR标定结果后，填入`src/FAST-LIVO2/config/mid360.yaml`。  
 相机内参填入`src/FAST-LIVO2/config/camera_pinhole_MV-CS020.yaml`  

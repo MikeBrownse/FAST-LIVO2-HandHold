@@ -1,4 +1,8 @@
-# judge which cmake codes to use 
+# judge which cmake codes to use
+if(NOT DEFINED ROS_EDITION)
+  set(ROS_EDITION "ROS1")
+endif()
+
 if(ROS_EDITION STREQUAL "ROS1")
 
   # Copyright(c) 2019 livoxtech limited.
