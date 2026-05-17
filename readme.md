@@ -212,7 +212,7 @@ rosrun camera_calibration cameracalibrator.py --size 7x4 --square 0.08 image:=/l
 
 
 
-### LiDAR-CAM联合标定
+### LiDAR-CAM外参标定
 
 #### rosbag文件录制
 要先启动相应传感器的topic发布（见上节），再录制。   
@@ -310,6 +310,37 @@ roslaunch src/FAST-LIVO2/launch/mapping_mid360.launch
   ```
 
 ## 踩坑记录
+### orin nx远程主机经常断联
+查看是否开启了wifi省电：
+```bash
+iw dev wlan0 get power_save
+```
+
+关闭wifi省电：
+``` bash
+cd /etc/NetworkManager/conf.d/
+ls -la
+# 这时应该看到wifi-powersave之类的文件
+sudo vi ./default-wifi-powersave-on.conf
+# 改为wifi.powersave = 2即可
+
+# 改完要重启NetworkManager
+sudo systemctl restart NetworkManager
+```
+
+|wifi.powersave值|含义|延迟|稳定性|是否推荐| 
+|:---:|:---:|:---:|:---:|:---:|
+|0|用默认（通常 = 3）|波动大|差|❌| 
+|1|不修改当前状态|不确定|差|❌|
+|2|完全关闭省电|15–25ms 稳|极好|✅|
+|3|开启省电（默认）|18–400ms 跳变|差|❌|
+
+
+|改前|改后|
+|---|---|
+|![ping_wifi_powersave_on](readme_img/ping_wifi_powersave_on.png)|![ping_wifi_powersave_off](readme_img/ping_wifi_powersave_off.png)|
+可见，延迟大幅降低。
+
 ### FAST-Calib 编译遇到opencv2/aruco.hpp问题
 这是因为 ArUco 模块在 OpenCV 3.x/4.x 中被分离到了 opencv_contrib 中，需要单独安装。
 
