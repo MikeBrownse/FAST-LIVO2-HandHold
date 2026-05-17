@@ -310,7 +310,7 @@ roslaunch src/FAST-LIVO2/launch/mapping_mid360.launch
   ```
 
 ## 踩坑记录
-### orin nx远程主机经常断联
+### Orin NX远程主机经常断联
 查看是否开启了wifi省电：
 ```bash
 iw dev wlan0 get power_save
