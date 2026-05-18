@@ -5,8 +5,8 @@ common:
 preprocess:
     lidar_type: 1                # Livox series LiDAR
     feature_extract_en: false
-    scan_line: 6
-    blind: 1
+    scan_line: 4
+    blind: 0.1
 
 initialization:
     cut_frame_num: 5            # must be positive integer

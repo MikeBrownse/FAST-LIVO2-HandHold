@@ -259,6 +259,53 @@ roslaunch fast-calib calib.launch
 
 但问题在于，该仓库只提供了`livox_ros_driver`（livox第一代驱动的兼容），本项目针对2代驱动和ceres2.2.0做了兼容性修改，解决了原仓库构建时的问题，可适用于MID-360。具体构建步骤仍可参考原仓库[`README.md`](src/LiDAR_IMU_Init/README.md)。
 
+外参标定使用的`livox_ros_driver2` - [`msg_MID360.launch`](src/livox_ros_driver2/launch_ROS1/msg_MID360.launch)文件：
+``` yaml
+<launch>
+
+	<!--user configure parameters for ros start-->
+	<arg name="lvx_file_path" default="livox_test.lvx"/>
+	<arg name="bd_list" default="100000000000000"/>
+	<!--xfer_format要改为1-->
+	<arg name="xfer_format" default="1"/>
+	<arg name="multi_topic" default="0"/>
+	<arg name="data_src" default="0"/>
+	<arg name="publish_freq" default="10.0"/>
+	<arg name="output_type" default="0"/>
+	<arg name="rviz_enable" default="false"/>
+	<arg name="rosbag_enable" default="false"/>
+	<arg name="cmdline_arg" default="$(arg bd_list)"/>
+	<arg name="msg_frame_id" default="livox_frame"/>
+	<arg name="lidar_bag" default="true"/>
+	<arg name="imu_bag" default="true"/>
+	<!--user configure parameters for ros end--> 
+
+	<param name="xfer_format" value="$(arg xfer_format)"/>
+	<param name="multi_topic" value="$(arg multi_topic)"/>
+	<param name="data_src" value="$(arg data_src)"/>
+	<param name="publish_freq" type="double" value="$(arg publish_freq)"/>
+	<param name="output_data_type" value="$(arg output_type)"/>
+	<param name="cmdline_str" type="string" value="$(arg bd_list)"/>
+	<param name="cmdline_file_path" type="string" value="$(arg lvx_file_path)"/>
+	<param name="user_config_path" type="string" value="$(find livox_ros_driver2)/config/MID360_config.json"/>
+	<param name="frame_id" type="string" value="$(arg msg_frame_id)"/>
+	<param name="enable_lidar_bag" type="bool" value="$(arg lidar_bag)"/>
+	<param name="enable_imu_bag" type="bool" value="$(arg imu_bag)"/>
+
+	<node name="livox_lidar_publisher2" pkg="livox_ros_driver2"
+	      type="livox_ros_driver2_node" required="true"
+	      output="screen" args="$(arg cmdline_arg)"/>
+
+	<group if="$(arg rosbag_enable)">
+    	<node pkg="rosbag" type="record" name="record" output="screen"
+          		args="-a"/>
+    </group>
+
+</launch>
+```
+
+进行标定时，同样先启动px4飞控节点，再启动`livox_ros_driver2`mid360节点，最后启动`liadr_imu_init`标定节点。
+
 ## fastlivo2配置
 得到相机-LiDAR标定结果后，填入`src/FAST-LIVO2/config/mid360.yaml`。  
 相机内参填入`src/FAST-LIVO2/config/camera_pinhole_MV-CS020.yaml`  

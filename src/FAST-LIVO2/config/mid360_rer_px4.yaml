@@ -1,0 +1,96 @@
+common: # 修改为对应的LiDAR和相机话题
+  img_topic: "/usbgs1200p02_cam/image_raw"
+  lid_topic: "/livox/lidar"
+  imu_topic: "/mavros/imu/data_raw"
+  img_en: 1
+  lidar_en: 1
+  ros_driver_bug_fix: true
+
+extrin_calib:
+  extrinsic_T: [-0.026385, 0.033097, -0.087401]  # IMU坐标系到LiDAR坐标系的平移
+  extrinsic_R: [0.919690, 0.002432, -0.392638,
+                -0.002519, 0.999997, 0.000295,
+                0.392637, 0.000717, 0.919693]  # IMU坐标系到LiDAR坐标系的旋转矩阵
+  # 相机-LiDAR外参标定参数，需要由Fast-Calib标定得到
+  Rcl: [  0.010752,  -0.999885,   0.010719,    # LiDAR坐标系到相机坐标系的旋转矩阵
+        0.354064,  -0.006218,  -0.935201,
+        0.935160,   0.013851,   0.353956]
+  Pcl: [  0.414429,   0.261007,  -0.002009]    # LiDAR坐标系到相机坐标系的平移
+
+
+
+time_offset:  # 时间偏移参数
+  imu_time_offset: 0.0
+  # img_time_offset: 0.08
+  img_time_offset: 0.04
+  exposure_time_init: 0.0
+
+preprocess:
+  point_filter_num: 1
+  filter_size_surf: 0.1
+  lidar_type: 1 # Livox Avia LiDAR
+  scan_line: 4  # Livox Avia: 6, MID-360: 4
+  blind: 0.8    # LiDAR盲区范围设置（m）
+
+vio:
+  max_iterations: 5
+  outlier_threshold: 1000 # 78 100 156 #100 200 500 700 infinite
+  img_point_cov: 100 # 100 1000 
+  patch_size: 8
+  patch_pyrimid_level: 4
+  normal_en: true
+  raycast_en: false
+  inverse_composition_en: false
+  exposure_estimate_en: true
+  inv_expo_cov: 0.1
+
+imu:
+  imu_en: true
+  imu_int_frame: 30
+  acc_cov: 0.05 # 0.2
+  gyr_cov: 0.03 # 0.5
+  b_acc_cov: 0.00001 # 0.1
+  b_gyr_cov: 0.00001 # 0.1
+
+lio:
+  max_iterations: 5
+  dept_err: 0.02
+  beam_err: 0.05
+  min_eigen_value: 0.0025 # 0.005
+  voxel_size: 0.5
+  max_layer: 2
+  max_points_num: 50
+  layer_init_num: [5, 5, 5, 5, 5]
+
+local_map:  
+  map_sliding_en: false
+  half_map_size: 100
+  sliding_thresh: 8
+
+uav:
+  imu_rate_odom: false
+  gravity_align_en: true
+
+publish:
+  dense_map_en: true
+  pub_effect_point_en: false 
+  pub_plane_en: false
+  pub_scan_num: 1
+  blind_rgb_points: 0.0
+
+evo:
+  seq_name: "CBD_Building_01"
+  pose_output_en: false
+
+pcd_save:
+  pcd_save_en: true
+  type: 0 # 0: World Frame, 1: Body Frame;
+  colmap_output_en: false # need to set interval = -1
+  filter_size_pcd: 0.15
+  interval: -1
+  # how many LiDAR frames saved in each pcd file;
+  # -1 : all frames will be saved in ONE pcd file, may lead to memory crash when having too much frames.
+
+image_save:
+  img_save_en: false
+  interval: 1

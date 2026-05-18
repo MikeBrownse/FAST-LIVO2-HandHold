@@ -11,5 +11,8 @@ CATKIN_IGNORE
 # vscode
 .vscode/
 
+# python虚拟环境
+.venv/
+
 *.bak
 
