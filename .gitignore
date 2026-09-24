@@ -16,3 +16,5 @@ CATKIN_IGNORE
 
 *.bak
 
+# 录制bag不备份
+*.bag
