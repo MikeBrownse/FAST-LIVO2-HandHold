@@ -20,16 +20,21 @@
 
 		<!-- 菜单型参数 - 这些名字需要放进 intrinsic_controls 命名空间，usb_cam 才会读取 -->
 		<param name="power_line_frequency" value="1" />
-		<param name="intrinsic_controls/exposure_auto" value="3" />
-		<param name="intrinsic_controls/white_balance_temperature_auto" value="1" />
-		<param name="intrinsic_controls/ignore" value="[brightness, contrast, saturation, gain, sharpness, backlight_compensation, white_balance_temperature, exposure_absolute, pan_absolute, tilt_absolute, focus_absolute, zoom_absolute]" />
+		<!-- 强制使用手动模式以避免自动曝光/白平衡闪烁 -->
+		<param name="intrinsic_controls/exposure_auto" value="1" />
+		<param name="intrinsic_controls/exposure_absolute" value="80" />
+		<param name="intrinsic_controls/gain" value="60" />
+		<param name="intrinsic_controls/gamma" value="110" />
+		<param name="intrinsic_controls/white_balance_temperature_auto" value="0" />
+		<param name="intrinsic_controls/white_balance_temperature" value="4600" />
+		<!-- 保留可忽略的控件，但允许 exposure 和 white_balance 被显式设置 -->
+		<param name="intrinsic_controls/ignore" value="[brightness, contrast, saturation, sharpness, backlight_compensation, pan_absolute, tilt_absolute, focus_absolute, zoom_absolute]" />
 
 		<!-- 图像基础调节参数 - 匹配v4l2实际范围&默认值 -->
 		<param name="brightness" value="0" />
 		<param name="contrast" value="0" />
 		<param name="saturation" value="66" />
 		<param name="hue" value="90" />
-		<param name="gamma" value="100" />
 		<param name="sharpness" value="2000" />
 		<param name="backlight_compensation" value="0" />
 
